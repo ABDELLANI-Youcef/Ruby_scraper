@@ -2,19 +2,16 @@ require 'nokogiri'
 require 'open-uri'
 
 # Fetch and parse HTML document
-doc = Nokogiri::HTML(URI.open('https://nokogiri.org/tutorials/installing_nokogiri.html'))
+page = URI.open('https://github.com/trending')
+doc = Nokogiri::HTML(page)
 
-puts "### Search for nodes by css"
-doc.css('nav ul.menu li a', 'article h2').each do |link|
-  puts link.content
-end
-
-puts "### Search for nodes by xpath"
-doc.xpath('//nav//ul//li/a', '//article//h2').each do |link|
-  puts link.content
-end
-
-puts "### Or mix and match."
-doc.search('nav ul.menu li a', '//article//h2').each do |link|
-  puts link.content
+# title = doc.css('Box div Box-row h1')main div.Box
+# element = doc.css('article h1 a')
+# 
+# element.css('svg').remove
+element = doc.css("article")
+element.each do |trend|
+  trend.css('float-right').remove
+  description = trend.css('p').text
+  print description
 end
