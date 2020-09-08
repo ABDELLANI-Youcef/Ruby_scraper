@@ -5,13 +5,7 @@ require 'open-uri'
 page = URI.open('https://github.com/trending')
 doc = Nokogiri::HTML(page)
 
-# title = doc.css('Box div Box-row h1')main div.Box
-# element = doc.css('article h1 a')
-# 
-# element.css('svg').remove
 element = doc.css("article")
-# example = "youcef"
-# puts example[0]
 
 element.each_with_index do |trend,index|
   trend.css('float-right').remove
@@ -19,21 +13,7 @@ element.each_with_index do |trend,index|
   description = trend.css('p').text
   
   unless description.size == 0
-    description2 = ''
-    j = description.size-1
-    while description[j].ord ==32 do
-      j -= 1
-    end
-    j -= 1
-    i=1
-    while (description[i].ord == 32) do
-      i +=1
-    end
-    while i<=j do
-      description2 << description[i]
-      i +=1
-    end
-    description=description2
+    description = description.split(" ").join(" ")
   end 
   
   # .bytes
@@ -56,25 +36,16 @@ element.each_with_index do |trend,index|
   # project title
   title.css("span").remove
   title = title.text
-  
-  title2 = ''
-  j = title.size-1
-  while title[j].ord ==32 || title[j].ord ==10 do
-    j -= 1
-  end
-  j -= 1
-  i=1
-  while (title[i].ord == 32 || title[i].ord == 10) do
-    i +=1
-  end
-  while i<=j do
-    title2 << title[i]
-    i +=1
-  end
-  title=title2
+  title = title.split(" ").join("")
   # Programming language
-  prog = trend.css("div span[itemprop='programmingLanguage']")
-
+  div = trend.xpath('div')[1]
+  prog = div.css("span[itemprop='programmingLanguage']")
+  # Project stars number
+  star = div.css("a")[0]
+  star.css("svg")
+  star = star.text.split(" ").join(" ")
+  star = star.split(",").join("").to_i
   # .bytes
-  puts prog.text+ "==>"+index.to_s
+  
+  gets.chomp
 end
