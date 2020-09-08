@@ -45,7 +45,22 @@ element.each_with_index do |trend,index|
   star.css("svg")
   star = star.text.split(" ").join(" ")
   star = star.split(",").join("").to_i
+  # Project members number
+  member = div.css("a")[1]
+  member.css("svg")
+  member = member.text.split(" ").join(" ")
+  member = member.split(",").join("").to_i
+  # Project Builders
+  builder_group = div.xpath("span")[1].xpath("a")
+  builders = []
+  builder_group.each do |builder|
+    builders.push("https://github.com" + builder['href'])
+  end
+  # Project stars today
+  today = div.xpath("span")[2]
+  today.css("svg").remove
+  today = today.text.split(" ")[0].split(",").join("").to_i
   # .bytes
-  
+  puts today.to_s + " ====> "+ index.to_s
   gets.chomp
 end
