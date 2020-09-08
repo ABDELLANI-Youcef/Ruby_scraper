@@ -1,6 +1,7 @@
 require 'nokogiri'
 require 'open-uri'
 require_relative '../lib/developer'
+require_relative '../lib/address'
 
 # Fetch and parse HTML document
 page = URI.open('https://github.com/trending')
@@ -53,46 +54,58 @@ element.each_with_index do |trend,index|
     owner: owner,
     title: title,
     description: description,
+    member: member,
     programming_language: prog,
     stars_number: star,
     builders: builders,
     today_stars: today
   }
+  puts information
 end
 
-page2 = URI.open('https://github.com/trending/developers')
-doc2 = Nokogiri::HTML(page2)
+# page2 = URI.open('https://github.com/trending/developers')
+# doc2 = Nokogiri::HTML(page2)
 
-element2 = doc2.xpath("//main/div/div/div/article")
-element2.each_with_index do |trend, index|
-  div = trend.css('div')[1]
-  div = div.css("div")[0]
-  div1 = div.css('div')[0]
-  information2 = {}
-  # Name
-  name = div1.css("h1 a").text
-  name = name.split(" ").join(" ")
-  information2['name'] = name
-  # Profile name
-  profile = div1.css("p a").text
-  profile = profile.split(" ").join(" ")
-  information2['profile'] = profile if profile.length>0
-  div2 = div.xpath('div')[1]
-  div2 = div2.xpath('div')
-  # company
-  company = div2.xpath("p")
-  if company.size > 0
-    company = company.css('span').text
-    information2['company'] = company
+# element2 = doc2.xpath("//main/div/div/div/article")
+# element2.each_with_index do |trend, index|
+#   div = trend.css('div')[1]
+#   div = div.css("div")[0]
+#   div1 = div.css('div')[0]
+#   information2 = {}
+#   # Name
+#   name = div1.css("h1 a").text
+#   name = name.split(" ").join(" ")
+#   information2['name'] = name
+#   # Profile name
+#   profile = div1.css("p a").text
+#   profile = profile.split(" ").join(" ")
+#   information2['profile'] = profile if profile.length>0
+#   div2 = div.xpath('div')[1]
+#   div2 = div2.xpath('div')
+#   # company
+#   company = div2.xpath("p")
+#   if company.size > 0
+#     company = company.css('span').text
+#     information2['company'] = company
     
-  else
-    article = div2.css('article')
-    repository = article.css('h1 a')
-    repository.css("svg").remove
-    repository = repository.text.split(" ").join(" ")
-    description = article.xpath("div")[1].text
-    description = description.split(" ").join(" ")
-    information2['repository'] = repository
-    information2['description'] = description  
-  end
-end
+#   else
+#     article = div2.css('article')
+#     repository = article.css('h1 a')
+#     repository.css("svg").remove
+#     repository = repository.text.split(" ").join(" ")
+#     description = article.xpath("div")[1].text
+#     description = description.split(" ").join(" ")
+#     information2['repository'] = repository
+#     information2['description'] = description  
+#   end
+# end
+
+address_generator = AddressUri.new
+puts address_generator.geenrate_address
+address_generator.developer = true
+puts address_generator.geenrate_address
+
+developer = DeveloperScrap.new
+developer.request_uri = 'https://github.com/trending/developers'
+developer.scrape_page
+# puts developer.informations
