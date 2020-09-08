@@ -1,5 +1,6 @@
 require 'nokogiri'
 require 'open-uri'
+require_relative '../lib/developer'
 
 # Fetch and parse HTML document
 page = URI.open('https://github.com/trending')
@@ -92,9 +93,6 @@ element2.each_with_index do |trend, index|
     description = article.xpath("div")[1].text
     description = description.split(" ").join(" ")
     information2['repository'] = repository
-    information2['description'] = description
-
-    
+    information2['description'] = description  
   end
-  puts index.to_s + "  ===>  " + information2.to_s
 end
