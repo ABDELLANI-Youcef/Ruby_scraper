@@ -33,11 +33,11 @@ element.each_with_index do |trend,index|
       description2 << description[i]
       i +=1
     end
-    print description2
+    description=description2
   end 
   
   # .bytes
-  # title
+  # owner
   title = trend.css("h1")
   title.css('svg').remove
   owner = title.css('span').text
@@ -53,5 +53,28 @@ element.each_with_index do |trend,index|
     i +=1
   end
   owner = owner2
-  puts "\n\n" + index.to_s + "\n\n"
+  # project title
+  title.css("span").remove
+  title = title.text
+  
+  title2 = ''
+  j = title.size-1
+  while title[j].ord ==32 || title[j].ord ==10 do
+    j -= 1
+  end
+  j -= 1
+  i=1
+  while (title[i].ord == 32 || title[i].ord == 10) do
+    i +=1
+  end
+  while i<=j do
+    title2 << title[i]
+    i +=1
+  end
+  title=title2
+  # Programming language
+  prog = trend.css("div span[itemprop='programmingLanguage']")
+
+  # .bytes
+  puts prog.text+ "==>"+index.to_s
 end
