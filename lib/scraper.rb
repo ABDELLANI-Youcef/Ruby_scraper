@@ -1,3 +1,6 @@
+# rubocop:disable Metrics/AbcSize
+# rubocop:disable Metrics/MethodLength
+# rubocop:disable Metrics/BlockLength
 require 'nokogiri'
 require 'open-uri'
 
@@ -17,7 +20,9 @@ class Scraper
       scrap_repo_page
     end
   end
+
   private
+
   def scrap_developer_page
     page = URI.open(@request_uri)
     doc = Nokogiri::HTML(page)
@@ -116,3 +121,6 @@ class Scraper
     end
   end
 end
+# rubocop:enable Metrics/AbcSize
+# rubocop:enable Metrics/MethodLength
+# rubocop:enable Metrics/BlockLength

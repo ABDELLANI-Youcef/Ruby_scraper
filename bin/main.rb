@@ -1,3 +1,8 @@
+# rubocop:disable Metrics/AbcSize
+# rubocop:disable Metrics/MethodLength
+# rubocop:disable Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/BlockNesting
+# rubycop:disable Metrics/PerceivedComplexity
 require 'nokogiri'
 require 'open-uri'
 require_relative '../lib/scraper'
@@ -42,9 +47,11 @@ class Main
       @scraper.scrap_page
 
       puts "\n\nThe scrap has finished, you have got #{@scraper.informations.size} trend\n\n"
-      puts "Would you like to display them all or only one them?\n1. all\n2. only one\nPlease type 1 or 2 to select your option"
+      puts "Would you like to display them all or only one them?\n1. all\n2. only one\
+                                          \nPlease type 1 or 2 to select your option"
 
-      option = valid_input(%w[1 2], "Would you like to display them all or only one them?\n1. all\n2. only one\nPlease type 1 or 2 to select your option")
+      option = valid_input(%w[1 2], "Would you like to display them all or only one them?\n1. \
+                                          all\n2. only one\nPlease type 1 or 2 to select your option")
       if option == '1'
         @scraper.informations.each_with_index do |info, index|
           puts "\nThe trend number #{index}"
@@ -68,7 +75,8 @@ class Main
           @scraper.informations[order - 1].each do |value|
             puts "#{value[0]} : #{value[1]}"
           end
-          puts "\n\n\nWould you like to display other result\nPlease type 'y' in order to display another trend or n otherwise"
+          puts "\n\n\nWould you like to display other result\nPlease type 'y' \
+                                            in order to display another trend or n otherwise"
           input = ''
           valid = false
           until valid
@@ -96,7 +104,7 @@ class Main
     puts 'Would you like to scrape the page the page of trending of repositories or of developpers?'
     puts "1. Repositories\n2. Developers\nPlease type 1 or 2 to choose the page to scrape"
     input = valid_input(%w[1 2], "invalid input!\nPlease choose valid input 1 or 2")
-    
+
     @developer = input == '2'
     puts 'Would you like to choose the rending for specific languague or for all languages in general'
     puts "1. All languages in general\n2. Specific language\nPlease type 1 or 2 to choose the option"
@@ -129,3 +137,8 @@ end
 
 main = Main.new
 main.start
+# rubocop:enable Metrics/AbcSize
+# rubocop:enable Metrics/MethodLength
+# rubocop:enable Metrics/CyclomaticComplexity
+# rubocop:enable Metrics/BlockNesting
+# rubycop:enable Metrics/PerceivedComplexity
