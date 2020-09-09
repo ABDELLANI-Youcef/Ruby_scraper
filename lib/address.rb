@@ -2,27 +2,22 @@ class AddressUri
   attr_accessor :developer, :language, :date
   def initialize
     @developer = false
-    @language = ""
-    @date = ""
+    @language = ''
+    @date = ''
   end
 
   def generate_address
-    address = "https://github.com/trending"
-    if @developer
-      address += "/developers"
-    end
-    if @language.size > 0
-      address += "/" + @language
-    end
-    if @date == "week"
-      address += "?since=weekly"
-    elsif @date == "month"
-      address += "?since=monthly"
-    elsif @language.size > 0
-      address += "?since=daily"
+    address = 'https://github.com/trending'
+    address += '/developers' if @developer
+    address += '/' + @language unless @language.empty?
+    if @date == 'week'
+      address += '?since=weekly'
+    elsif @date == 'month'
+      address += '?since=monthly'
+    elsif !@language.empty?
+      address += '?since=daily'
     end
 
     address
   end
-
 end

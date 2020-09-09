@@ -2,9 +2,9 @@ require 'nokogiri'
 require 'open-uri'
 
 class Scraper
-  attr_accessor :request_uri , :informations, :developer
+  attr_accessor :request_uri, :informations, :developer
   def initialize
-    @request_uri = ""
+    @request_uri = ''
     @informations = []
     @developer = false
   end
@@ -21,37 +21,37 @@ class Scraper
   def scrap_developer_page
     page = URI.open(@request_uri)
     doc = Nokogiri::HTML(page)
-    element = doc.xpath("//main/div/div/div/article")
+    element = doc.xpath('//main/div/div/div/article')
     element.each do |trend|
       div = trend.css('div')[1]
-      div = div.css("div")[0]
+      div = div.css('div')[0]
       div1 = div.css('div')[0]
       information = {}
       # Name
-      name = div1.css("h1 a").text
-      name = name.split(" ").join(" ")
+      name = div1.css('h1 a').text
+      name = name.split(' ').join(' ')
       information['name'] = name
       # Profile name
-      profile = div1.css("p a").text
-      profile = profile.split(" ").join(" ")
-      information['profile'] = profile if profile.length>0
+      profile = div1.css('p a').text
+      profile = profile.split(' ').join(' ')
+      information['profile'] = profile unless profile.empty?
       div2 = div.xpath('div')[1]
       div2 = div2.xpath('div')
       # company
-      company = div2.xpath("p")
-      if company.size > 0
+      company = div2.xpath('p')
+      if !company.empty?
         company = company.css('span').text
         information['company'] = company
-        
+
       else
         article = div2.css('article')
         repository = article.css('h1 a')
-        repository.css("svg").remove
-        repository = repository.text.split(" ").join(" ")
-        description = article.xpath("div")[1].text
-        description = description.split(" ").join(" ")
+        repository.css('svg').remove
+        repository = repository.text.split(' ').join(' ')
+        description = article.xpath('div')[1].text
+        description = description.split(' ').join(' ')
         information['repository'] = repository
-        information['description'] = description  
+        information['description'] = description
       end
       @informations.push(information)
     end
@@ -61,47 +61,46 @@ class Scraper
     page = URI.open(@request_uri)
     doc = Nokogiri::HTML(page)
 
-    element = doc.css("article")
+    element = doc.css('article')
 
-    element.each_with_index do |trend,index|
+    element.each_with_index do |trend, _index|
       trend.css('float-right').remove
       # paragraph of description
       description = trend.css('p').text
-      
-      unless description.size == 0
-        description = description.split(" ").join(" ")
-      end 
+
+      description = description.split(' ').join(' ') unless description.empty?
       # owner
-      title = trend.css("h1")
+      title = trend.css('h1')
       title.css('svg').remove
       owner = title.css('span').text
-      owner = owner.split(" ").join(" ")
-      title.css("span").remove
+      owner = owner.split(' ').join(' ')
+      owner[-1] = ''
+      title.css('span').remove
       title = title.text
-      title = title.split(" ").join("")
+      title = title.split(' ').join('')
       # Programming language
       div = trend.xpath('div')[1]
       prog = div.css("span[itemprop='programmingLanguage']").text
       # Project stars number
-      star = div.css("a")[0]
-      star.css("svg")
-      star = star.text.split(" ").join(" ")
-      star = star.split(",").join("").to_i
+      star = div.css('a')[0]
+      star.css('svg')
+      star = star.text.split(' ').join(' ')
+      star = star.split(',').join('').to_i
       # Project members number
-      member = div.css("a")[1]
-      member.css("svg")
-      member = member.text.split(" ").join(" ")
-      member = member.split(",").join("").to_i
+      member = div.css('a')[1]
+      member.css('svg')
+      member = member.text.split(' ').join(' ')
+      member = member.split(',').join('').to_i
       # Project Builders
-      builder_group = div.xpath("span")[-2].xpath("a")
+      builder_group = div.xpath('span')[-2].xpath('a')
       builders = []
       builder_group.each do |builder|
-        builders.push("https://github.com" + builder['href'])
+        builders.push('https://github.com' + builder['href'])
       end
       # Project stars today
-      today = div.xpath("span")[-1]
-      today.css("svg").remove
-      today = today.text.split(" ")[0].split(",").join("").to_i
+      today = div.xpath('span')[-1]
+      today.css('svg').remove
+      today = today.text.split(' ')[0].split(',').join('').to_i
       # .bytes
       information = {
         owner: owner,
@@ -116,5 +115,4 @@ class Scraper
       @informations.push(information)
     end
   end
-
 end
