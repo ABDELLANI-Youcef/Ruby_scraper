@@ -2,7 +2,7 @@
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/BlockNesting
-# rubycop:disable Metrics/PerceivedComplexity
+# rubocop:disable Metrics/PerceivedComplexity
 require 'nokogiri'
 require 'open-uri'
 require_relative '../lib/scraper'
@@ -141,4 +141,4 @@ main.start
 # rubocop:enable Metrics/MethodLength
 # rubocop:enable Metrics/CyclomaticComplexity
 # rubocop:enable Metrics/BlockNesting
-# rubycop:enable Metrics/PerceivedComplexity
+# rubocop:enable Metrics/PerceivedComplexity
