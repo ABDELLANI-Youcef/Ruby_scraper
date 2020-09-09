@@ -2,7 +2,7 @@ require 'nokogiri'
 require 'open-uri'
 
 class Scraper
-  attr_accessor :request_uri , :informations
+  attr_accessor :request_uri , :informations, :developer
   def initialize
     @request_uri = ""
     @informations = []
@@ -14,7 +14,7 @@ class Scraper
     if @developer
       scrap_developer_page
     else
-      
+      scrap_repo_page
     end
   end
 
@@ -58,7 +58,7 @@ class Scraper
   end
 
   def scrap_repo_page
-    page = URI.open('https://github.com/trending')
+    page = URI.open(@request_uri)
     doc = Nokogiri::HTML(page)
 
     element = doc.css("article")
@@ -71,7 +71,6 @@ class Scraper
       unless description.size == 0
         description = description.split(" ").join(" ")
       end 
-      # .bytes
       # owner
       title = trend.css("h1")
       title.css('svg').remove
@@ -114,6 +113,7 @@ class Scraper
         builders: builders,
         today_stars: today
       }
+      @informations.push(information)
     end
   end
 

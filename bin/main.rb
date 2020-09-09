@@ -18,7 +18,12 @@ class Main
     puts "You can also choose if you want the trending for today, this week or this month"
     @address_generator = AddressUri.new
     @scraper = Scraper.new
-    make_address
+    address = make_address
+    @scraper.developer = @developer
+    @scraper.request_uri = address
+    @scraper.scrap_page
+    print @scraper.informations
+    puts
   end
 
   def make_address 
@@ -69,7 +74,7 @@ class Main
     @address_generator.language = language
     @address_generator.date = date
     address = @address_generator.generate_address
-    puts address
+    address
   end
 
 end
