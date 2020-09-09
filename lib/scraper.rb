@@ -17,7 +17,7 @@ class Scraper
       scrap_repo_page
     end
   end
-
+  private
   def scrap_developer_page
     page = URI.open(@request_uri)
     doc = Nokogiri::HTML(page)
