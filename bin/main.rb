@@ -15,15 +15,78 @@ class Main
     puts "Welcome in this github trending page scraper."
     puts "In this application You can scrap the trending of github By repository and by developer."
     puts "You can also specify whether you would like to use according a specific programming language"
-    puts "You can also choose if you want the trending for today, this week or this month"
+    puts "You can also choose if you want the trending for today, this week or this month\n\n"
     @address_generator = AddressUri.new
     @scraper = Scraper.new
-    address = make_address
-    @scraper.developer = @developer
-    @scraper.request_uri = address
-    @scraper.scrap_page
-    print @scraper.informations
-    puts
+    app_loop
+    puts "\n\nThanks for using our application!!!\nGood Bye"
+  end
+
+  def app_loop
+    terminate = false
+    until terminate
+      address = make_address
+      puts "\n\nThe requested address is #{address}\n\n"
+      @scraper.developer = @developer
+      @scraper.request_uri = address
+      @scraper.scrap_page
+  
+      puts "\n\nThe scrap has finished, you have got #{@scraper.informations.size} trend\n\n"
+      puts "Would you like to display them all or only one them?\n1. all\n2. only one\nPlease type 1 or 2 to select your option"
+      input = ""
+      valid = false
+      until valid
+        input = gets.chomp
+        valid = %w[1 2].include?(input)
+        puts "invalid input!\nPlease choose a valid input: 1 or 2" unless valid
+      end
+      option = input
+      if option == "1"
+        @scraper.informations.each_with_index do |info , index|
+          puts "\nThe trend number #{index}"
+          info.each do |value|
+            puts "#{value[0]}y: #{value[1]}"
+          end
+          
+        end
+      else
+        no_more = false
+        until no_more
+          total = @scraper.informations.size
+          puts "\n\nPlease choose a number between 1 and #{total} to specify the order of the trend\n\n"
+          input = ""
+          valid = false
+          until valid
+            input = gets.chomp
+            valid = 1 <= input.to_i && input.to_i <= total
+            puts "invalid input!\nPlease choose a valid number between: 1 and #{total}" unless valid
+          end
+          order = input.to_i
+          @scraper.informations[order -1].each do |value|
+            puts "#{value[0]} : #{value[1]}"
+          end
+          puts "\n\n\nWould you like to display other result\nPlease type 'y' in order scrap a new page or n otherwise"
+          input = ""
+          valid = false
+          until valid
+            input = gets.chomp
+            valid = %w[y n].include?(input)
+            puts "invalid input!\nPlease choose a valid input: y or n" unless valid
+          end
+          no_more = input == "n"
+        end
+      end
+
+      puts "\n\n\nWould you like to try again\nPlease type 'y' in order scrap a new page or n to leave the application"
+      input = ""
+      valid = false
+      until valid
+        input = gets.chomp
+        valid = %w[y n].include?(input)
+        puts "invalid input!\nPlease choose a valid input: y or n" unless valid
+      end
+      terminate = input == "n"
+    end
   end
 
   def make_address 
@@ -81,4 +144,3 @@ end
 
 main = Main.new
 main.start
-
