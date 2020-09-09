@@ -20,7 +20,7 @@ describe Scraper do
     it "should return the attribute informations after initialization and it should be an empty array" do
       expect(scraper.informations).to eql([])
     end
-    it "should return the attribute informations after scraping a git hub page and it should not be an empty arry" do
+    it "should return the attribute informations after scraping a git hub page and it should not be an empty array" do
       scraper.request_uri = 'https://github.com/trending'
       scraper.scrap_page
       expect(scraper.informations).not_to eql([])
