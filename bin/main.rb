@@ -1,111 +1,79 @@
 require 'nokogiri'
 require 'open-uri'
-require_relative '../lib/developer'
+require_relative '../lib/scraper'
 require_relative '../lib/address'
 
-# Fetch and parse HTML document
-page = URI.open('https://github.com/trending')
-doc = Nokogiri::HTML(page)
 
-element = doc.css("article")
-
-element.each_with_index do |trend,index|
-  trend.css('float-right').remove
-  # paragraph of description
-  description = trend.css('p').text
-  
-  unless description.size == 0
-    description = description.split(" ").join(" ")
-  end 
-  # .bytes
-  # owner
-  title = trend.css("h1")
-  title.css('svg').remove
-  owner = title.css('span').text
-  owner = owner.split(" ").join(" ")
-  title.css("span").remove
-  title = title.text
-  title = title.split(" ").join("")
-  # Programming language
-  div = trend.xpath('div')[1]
-  prog = div.css("span[itemprop='programmingLanguage']").text
-  # Project stars number
-  star = div.css("a")[0]
-  star.css("svg")
-  star = star.text.split(" ").join(" ")
-  star = star.split(",").join("").to_i
-  # Project members number
-  member = div.css("a")[1]
-  member.css("svg")
-  member = member.text.split(" ").join(" ")
-  member = member.split(",").join("").to_i
-  # Project Builders
-  builder_group = div.xpath("span")[-2].xpath("a")
-  builders = []
-  builder_group.each do |builder|
-    builders.push("https://github.com" + builder['href'])
+class Main
+  def initialize
+    @developer = false
+    @address_generator = nil
+    @scraper = nil
   end
-  # Project stars today
-  today = div.xpath("span")[-1]
-  today.css("svg").remove
-  today = today.text.split(" ")[0].split(",").join("").to_i
-  # .bytes
-  information = {
-    owner: owner,
-    title: title,
-    description: description,
-    member: member,
-    programming_language: prog,
-    stars_number: star,
-    builders: builders,
-    today_stars: today
-  }
-  puts information
+
+  def start
+    puts "Welcome in this github trending page scraper."
+    puts "In this application You can scrap the trending of github By repository and by developer."
+    puts "You can also specify whether you would like to use according a specific programming language"
+    puts "You can also choose if you want the trending for today, this week or this month"
+    @address_generator = AddressUri.new
+    @scraper = Scraper.new
+    make_address
+  end
+
+  def make_address 
+    puts "Would you like to scrape the page the page of trending of repositories or of developpers?"
+    puts "1. Repositories\n2. Developers\nPlease type 1 or 2 to choose the page to scrape"
+    input = ""
+    valid = false
+    until valid
+      input = gets.chomp
+      valid = %w[1 2].include?(input)
+      puts "invalid input!\nPlease choose valid input 1 or 2" unless valid
+    end
+    @developer = input == '2'
+    puts "Would you like to choose the rending for specific languague or for all languages in general"
+    puts "1. All languages in general\n2. Specific language\nPlease type 1 or 2 to choose the option"
+    input = ""
+    valid = false
+    until valid
+      input = gets.chomp
+      valid = %w[1 2].include?(input)
+      puts "invalid input!\nPlease choose valid input 1 or 2" unless valid
+    end
+    language = ""
+    if input == "2"
+      puts "please write the name of the language "
+      language = gets.chomp.downcase
+    end
+
+    date = ""
+    puts "which period would you like to choose the rending for?"
+    puts "1. Today\n2. This week\n3. This month\nPlease type 1, 2 or 3 to choose the option"
+    input = ""
+    valid = false
+    until valid
+      input = gets.chomp
+      valid = %w[1 2 3].include?(input)
+      puts "invalid input!\nPlease choose valid input 1, 2 or 3" unless valid
+    end
+    case input
+    when "1"
+      date = "today"
+    when "2"
+      date = "week"
+    else
+      date = "month"
+    end
+    @address_generator.developer = @developer
+    @address_generator.language = language
+    @address_generator.date = date
+    address = @address_generator.generate_address
+    puts address
+  end
+
 end
 
-# page2 = URI.open('https://github.com/trending/developers')
-# doc2 = Nokogiri::HTML(page2)
+main = Main.new
+main.start
 
-# element2 = doc2.xpath("//main/div/div/div/article")
-# element2.each_with_index do |trend, index|
-#   div = trend.css('div')[1]
-#   div = div.css("div")[0]
-#   div1 = div.css('div')[0]
-#   information2 = {}
-#   # Name
-#   name = div1.css("h1 a").text
-#   name = name.split(" ").join(" ")
-#   information2['name'] = name
-#   # Profile name
-#   profile = div1.css("p a").text
-#   profile = profile.split(" ").join(" ")
-#   information2['profile'] = profile if profile.length>0
-#   div2 = div.xpath('div')[1]
-#   div2 = div2.xpath('div')
-#   # company
-#   company = div2.xpath("p")
-#   if company.size > 0
-#     company = company.css('span').text
-#     information2['company'] = company
-    
-#   else
-#     article = div2.css('article')
-#     repository = article.css('h1 a')
-#     repository.css("svg").remove
-#     repository = repository.text.split(" ").join(" ")
-#     description = article.xpath("div")[1].text
-#     description = description.split(" ").join(" ")
-#     information2['repository'] = repository
-#     information2['description'] = description  
-#   end
-# end
-
-address_generator = AddressUri.new
-puts address_generator.geenrate_address
-address_generator.developer = true
-puts address_generator.geenrate_address
-
-developer = DeveloperScrap.new
-developer.request_uri = 'https://github.com/trending/developers'
-developer.scrape_page
-# puts developer.informations
