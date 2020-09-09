@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/AbcSize
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/BlockNesting
@@ -137,7 +136,7 @@ end
 
 main = Main.new
 main.start
-# rubocop:enable Metrics/AbcSize
+
 # rubocop:enable Metrics/MethodLength
 # rubocop:enable Metrics/CyclomaticComplexity
 # rubocop:enable Metrics/BlockNesting

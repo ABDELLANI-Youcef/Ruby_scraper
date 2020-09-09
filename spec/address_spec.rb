@@ -1,6 +1,6 @@
-require_relative '../lib/address'
 require 'nokogiri'
 require 'open-uri'
+require_relative '../lib/address'
 
 describe AddressUri do
   let(:address) { AddressUri.new }
