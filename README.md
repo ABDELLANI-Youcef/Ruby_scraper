@@ -44,6 +44,8 @@ Besides the live demo link, you can run those functions in you own local environ
 In order to run, you need to install RUBY in your computer. For windows you can go to [Ruby installer](https://rubyinstaller.org/) and for MAC and LINUX you can go to [Ruby official site](https://www.ruby-lang.org/en/downloads/) for intructions on how to intall it.
 Then you can clone the project by typing ```git clone https://github.com/ABDELLANI-Youcef/ruby_scraper```
 
+You should have the bundler 1.17.2 installed. In order to install it you should run 'gem install bundler:1.17.2' then 'bundle install'
+
 
 ### Run the application
 Type ```./bin/main.rb``` in the root file of the project. 
