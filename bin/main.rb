@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/AbcSize
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/BlockNesting
@@ -14,14 +13,14 @@ class Main
   end
 
   def start
-    puts 'Welcome in this github trending page scraper.'
-    puts 'In this application You can scrap the trending of github By repository and by developer.'
-    puts 'You can also specify whether you would like to use according a specific programming language'
-    puts "You can also choose if you want the trending for today, this week or this month\n\n"
+    puts 'Welcome to this Github trending page scraper.'
+    puts 'In this application, you can scrap the trending of Github By repository and by developer.'
+    puts 'You can also specify whether you would like to use according to a specific programming language'
+    puts "You can also choose if you want the trending for today, this week, or this month\n\n"
     @address_generator = AddressUri.new
     @scraper = Scraper.new
     app_loop
-    puts "\n\nThanks for using our application!!!\nGood Bye"
+    puts "\n\nThanks for using our application!!!\nGoodBye"
   end
 
   def valid_input(valid_group, ask_reinsert)
@@ -39,84 +38,85 @@ class Main
     terminate = false
     until terminate
       address = make_address
-      puts "\n\nThe requested address is #{address}\n\n"
-      @scraper.developer = @developer
-      @scraper.request_uri = address
-      @scraper.scrap_page
-
-      puts "\n\nThe scrap has finished, you have got #{@scraper.informations.size} trend\n\n"
-      puts "Would you like to display them all or only one them?\n1. all\n2. only one\
-                                          \nPlease type 1 or 2 to select your option"
-
-      option = valid_input(%w[1 2], "Would you like to display them all or only one them?\n1. \
-                                          all\n2. only one\nPlease type 1 or 2 to select your option")
-      if option == '1'
-        @scraper.informations.each_with_index do |info, index|
-          puts "\nThe trend number #{index + 1}"
-          info.each do |value|
-            puts "#{value[0]}: #{value[1]}"
-          end
-        end
-      else
-        no_more = false
-        until no_more
-          total = @scraper.informations.size
-          puts "\n\nPlease choose a number between 1 and #{total} to specify the order of the trend\n\n"
-          input = ''
-          valid = false
-          until valid
-            input = gets.chomp
-            valid = input.to_i >= 1 && input.to_i <= total
-            puts "invalid input!\nPlease choose a valid number between: 1 and #{total}" unless valid
-          end
-          order = input.to_i
-          @scraper.informations[order - 1].each do |value|
-            puts "#{value[0]} : #{value[1]}"
-          end
-          puts "\n\n\nWould you like to display other result\nPlease type 'y' \
-                                            in order to display another trend or n otherwise"
-          input = ''
-          valid = false
-          until valid
-            input = gets.chomp
-            valid = %w[y n].include?(input)
-            puts "invalid input!\nPlease choose a valid input: y or n" unless valid
-          end
-          no_more = input == 'n'
-        end
+      if address != 'stop'
+        puts "\n\nThe requested address is #{address}\n\n"
+        @scraper.developer = @developer
+        @scraper.request_uri = address
+        @scraper.scrap_page
+        display_results
       end
-
-      puts "\n\n\nWould you like to try again\nPlease type 'y' in order scrap a new page or n to leave the application"
-      input = ''
-      valid = false
-      until valid
-        input = gets.chomp
-        valid = %w[y n].include?(input)
-        puts "invalid input!\nPlease choose a valid input: y or n" unless valid
-      end
+      puts "\n\n\nWould you like to try again"
+      puts "Please type 'y' in order to scrap a new page or 'n' to leave the application"
+      input = valid_input(%w[y n], "invalid input!\nPlease choose a valid input: y or n")
       terminate = input == 'n'
     end
   end
 
+  def display_results
+    puts "\n\nThe scrap has finished, you have got #{@scraper.informations.size} trend\n\n"
+    puts "Would you like to display them all or only one them or quit the application ?\n1. all\n2. only one\
+                                        \n3. quit the operation\
+                                        \nPlease type 1,2 or 3 to select your option"
+
+    option = valid_input(%w[1 2 3], "invalid input!\nPlease choose a valid input 1,2 or 3")
+    return if option == '3'
+    if option == '1'
+      @scraper.informations.each_with_index do |info, index|
+        puts "\nThe trend number #{index + 1}"
+        info.each do |value|
+          puts "#{value[0]}: #{value[1]}"
+        end
+      end
+    else
+      no_more = false
+      until no_more
+        total = @scraper.informations.size
+        puts "\n\nPlease choose a number between 1 and #{total} to specify the order of the trend\n\n"
+        input = ''
+        valid = false
+        until valid
+          input = gets.chomp
+          valid = input.to_i >= 1 && input.to_i <= total
+          puts "invalid input!\nPlease choose a valid number between: 1 and #{total}" unless valid
+        end
+        order = input.to_i
+        @scraper.informations[order - 1].each do |value|
+          puts "#{value[0]} : #{value[1]}"
+        end
+        puts "\n\n\nWould you like to display other result\nPlease type 'y' "\
+                      'in order to display another trend or n otherwise'
+        input = valid_input(%w[y n], "invalid input!\nPlease choose a valid input: y or n")
+        no_more = input == 'n'
+      end
+    end
+  end
+
   def make_address
-    puts 'Would you like to scrape the page the page of trending of repositories or of developpers?'
-    puts "1. Repositories\n2. Developers\nPlease type 1 or 2 to choose the page to scrape"
-    input = valid_input(%w[1 2], "invalid input!\nPlease choose valid input 1 or 2")
+    puts 'Would you like to scrape the page the page of trending of repositories or of developers?'
+    puts "1. Repositories\n2. Developers\n3. Stop the operation\nPlease type 1 or 2 to"\
+          "choose the page to scrape choose the page to scrape or 3 to stop the scraping operation\n"
+    input = valid_input(%w[1 2 3], "invalid input!\nPlease choose valid input 1, 2 or 3")
+
+    return 'stop' if input == '3'
 
     @developer = input == '2'
-    puts 'Would you like to choose the rending for specific languague or for all languages in general'
-    puts "1. All languages in general\n2. Specific language\nPlease type 1 or 2 to choose the option"
-    input = valid_input(%w[1 2], "invalid input!\nPlease choose valid input 1 or 2")
-
+    puts 'Would you like to choose the rending for specific language or for all languages in general'
+    puts "1. All languages in general\n2. Specific language\n3. Stop the operation\n"\
+                                        'Please type 1 or 2 to choose the option or '\
+                                        '3 to stop the scraping operation'
+    input = valid_input(%w[1 2 3], "invalid input!\nPlease choose valid input 1, 2 or 3")
+    return 'stop' if input == '3'
     language = ''
     if input == '2'
-      puts 'please write the name of the language '
+      puts 'Please write the name of the language'
       language = gets.chomp.downcase
     end
 
     puts 'which period would you like to choose the rending for?'
-    puts "1. Today\n2. This week\n3. This month\nPlease type 1, 2 or 3 to choose the option"
-    input = valid_input(%w[1 2 3], "invalid input!\nPlease choose valid input 1, 2 or 3")
+    puts "1. Today\n2. This week\n3. This month\n4. Stop the operation\nPlease type 1, 2 or 3 to choose the option"
+    puts ' or 4 to stop the scraping'
+    input = valid_input(%w[1 2 3 4], "invalid input!\nPlease choose valid input 1, 2, 3 or 4")
+    return 'stop' if input == '4'
     date = case input
            when '1'
              'today'
