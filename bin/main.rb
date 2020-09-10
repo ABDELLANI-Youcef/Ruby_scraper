@@ -1,9 +1,8 @@
+# rubocop:disable Metrics/AbcSize
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/BlockNesting
 # rubocop:disable Metrics/PerceivedComplexity
-require 'nokogiri'
-require 'open-uri'
 require_relative '../lib/scraper'
 require_relative '../lib/address'
 
@@ -53,7 +52,7 @@ class Main
                                           all\n2. only one\nPlease type 1 or 2 to select your option")
       if option == '1'
         @scraper.informations.each_with_index do |info, index|
-          puts "\nThe trend number #{index}"
+          puts "\nThe trend number #{index + 1}"
           info.each do |value|
             puts "#{value[0]}: #{value[1]}"
           end
@@ -136,7 +135,7 @@ end
 
 main = Main.new
 main.start
-
+# rubocop:enable Metrics/AbcSize
 # rubocop:enable Metrics/MethodLength
 # rubocop:enable Metrics/CyclomaticComplexity
 # rubocop:enable Metrics/BlockNesting
