@@ -1,5 +1,3 @@
-require 'nokogiri'
-require 'open-uri'
 require_relative '../lib/scraper'
 
 describe Scraper do

@@ -1,5 +1,3 @@
-require 'nokogiri'
-require 'open-uri'
 require_relative '../lib/address'
 
 describe AddressUri do
