@@ -5,7 +5,7 @@ Microverse Ruby capstone project
 
 ![screenshot](./images/output.png)
 
-In the project, we make [github trending page](https://github.com/trending) scraper using ruby language and nokogiri framework. We Give the possibility to scrap the page according the [repositories](https://github.com/trending) or [developers](https://github.com/trending/developers). We give also the option of selecting the programming language and the period (this day, ths week or this month).
+In this project, we make [github trending page](https://github.com/trending) scraper using ruby language and nokogiri framework. We Give the possibility to scrap the page according to the [repositories](https://github.com/trending) or [developers](https://github.com/trending/developers). We give also the option to select the programming language of trends (like CSS, html, java, javascript) and the period that include the trends (the day, the week or the month) of the scrap.
 
 ## Built With
 
@@ -32,6 +32,7 @@ This game was tested using [RSpec](https://rspec.info/) which is a ruby testing 
 ### Run the test
 - Open a terminal window and type rspec
 - All tests should be passed:
+
 ![screenshot of tests](./img/tests_screenshot.png)
 
 
@@ -48,8 +49,7 @@ You should have the bundler 1.17.2 installed. In order to install it you should 
 
 
 ### Run the application
-Type ```./bin/main.rb``` in the root file of the project. 
-You can also type ```ruby bin/main.rb``` in the root file of the project.
+Type ```ruby bin/main.rb``` in the root file of the project.
 
 ### Using the application
 After running the application you get welcome message. While using the application it will ask you to specify whether you would like to scrap a the repositories trending or the developers trending, the whether you would like select a particular programming language (in which case it while ask you to type it) or all the languages in general and to select if the trending are for today, this week or this month.
@@ -58,11 +58,38 @@ After scrapping the page, the application will ask you if you would like to disp
 
 Finaly, Itwill ask you if you would like to make another query and scrap the results page or to quite the application
 
+Step 1: select which page to scrap (trending of repositories or of developers)
+
+![step 1](./img/step1.png)
+
+Step 2: Choose whether you would like a specific language or no
+
+![step 2](./img/step2.png)
+
+If you would like to choose specific programming language otherwise It will take you to the third step
+
+![step 2.1](./img/step3.png)
+
+Step 3
+
+![step 3](./img/step4.png)
+
+Step 4: you should choose whether you want to display all the results or only one
+
+![step 4](./img/step5.png)
+
+The displaying of the results
+
+![step 6](./img/step6.png)
+
+After displaying the results
+
+![step 5](./img/step7.png)
 
 👤 **Abdellani Youcef**
 
 - Github: [@ABDELLANI-Youcef](https://github.com/ABDELLANI-Youcef)
- - Twitter: [@YoucefAbdellani](https://twitter.com/YoucefAbdellani) 
+- Twitter: [@YoucefAbdellani](https://twitter.com/YoucefAbdellani) 
 - Linkedin: [linkedin](https://www.linkedin.com/in/youcef-abdellani-b79361124/)
 
 ## 🤝 Contributing

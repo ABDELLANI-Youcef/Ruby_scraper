@@ -46,7 +46,7 @@ class Main
         display_results
       end
       puts "\n\n\nWould you like to try again"
-      puts "Please type 'y' in order to scrap a new page or 'n' to leave the application"
+      puts "Please type:\n'y' in order to scrap a new page \nor 'n' to leave the application"
       input = valid_input(%w[y n], "invalid input!\nPlease choose a valid input: y or n")
       terminate = input == 'n'
     end
