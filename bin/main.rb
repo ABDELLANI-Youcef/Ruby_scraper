@@ -60,6 +60,7 @@ class Main
 
     option = valid_input(%w[1 2 3], "invalid input!\nPlease choose a valid input 1,2 or 3")
     return if option == '3'
+
     if option == '1'
       @scraper.informations.each_with_index do |info, index|
         puts "\nThe trend number #{index + 1}"
@@ -106,6 +107,7 @@ class Main
                                         '3 to stop the scraping operation'
     input = valid_input(%w[1 2 3], "invalid input!\nPlease choose valid input 1, 2 or 3")
     return 'stop' if input == '3'
+
     language = ''
     if input == '2'
       puts 'Please write the name of the language'
@@ -117,6 +119,7 @@ class Main
     puts ' or 4 to stop the scraping'
     input = valid_input(%w[1 2 3 4], "invalid input!\nPlease choose valid input 1, 2, 3 or 4")
     return 'stop' if input == '4'
+
     date = case input
            when '1'
              'today'
@@ -135,7 +138,7 @@ end
 
 main = Main.new
 main.start
-# rubocop:enable Metrics/AbcSize
+
 # rubocop:enable Metrics/MethodLength
 # rubocop:enable Metrics/CyclomaticComplexity
 # rubocop:enable Metrics/BlockNesting
