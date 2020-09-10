@@ -1,0 +1,17 @@
+GIT
+  remote: https://github.com/sparklemotion/nokogiri
+  revision: f384738b3849f13e7753aa59a7ebd95246ee36ad
+  specs:
+    nokogiri (1.7.0.1)
+
+GEM
+  specs:
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  nokogiri (= 1.7.0.1)!
+
+BUNDLED WITH
+   1.17.2
