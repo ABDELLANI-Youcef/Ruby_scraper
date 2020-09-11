@@ -3,8 +3,6 @@
 
 Microverse Ruby capstone project
 
-![screenshot](./images/output.png)
-
 In this project, we make [github trending page](https://github.com/trending) scraper using ruby language and nokogiri framework. We Give the possibility to scrap the page according to the [repositories](https://github.com/trending) or [developers](https://github.com/trending/developers). We give also the option to select the programming language of trends (like CSS, html, java, javascript) and the period that include the trends (the day, the week or the month) of the scrap.
 
 ## Built With
