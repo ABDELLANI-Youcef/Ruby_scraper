@@ -53,8 +53,13 @@ class Scraper
         repository = article.css('h1 a')
         repository.css('svg').remove
         repository = repository.text.split(' ').join(' ')
-        description = article.xpath('div')[1].text
-        description = description.split(' ').join(' ')
+        description = article.xpath('div')
+        if description.size == 1
+          description = ''
+        else
+          description = description[1].text
+          description = description.split(' ').join(' ')
+        end
         information['repository'] = repository
         information['description'] = description
       end
